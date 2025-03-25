@@ -28,44 +28,44 @@ using namespace daisy;
 using namespace daisysp;
 
 // Declare a DaisySeed object called hardware
-DaisySeed hardware;
+DaisySeed         hardware;
 static Oscillator osc;
-static bool ledState = false;
+static bool       ledState = false;
 
 // Audio callback function
 void AudioCallback(AudioHandle::InterleavingInputBuffer  in,
-  AudioHandle::InterleavingOutputBuffer out,
-  size_t size)
+                   AudioHandle::InterleavingOutputBuffer out,
+                   size_t                                size)
 {
   bool newLedState;
 
-  for (size_t i = 0; i < size; i++)
+  for(size_t i = 0; i < size; i++)
+  {
+    newLedState = osc.Process() > 0.0f;
+    if(ledState != newLedState)
     {
-      newLedState = osc.Process() > 0.0f;
-      if (ledState != newLedState)
-      {
-        ledState = newLedState;
-        hardware.SetLed(ledState);
-      }
+      ledState = newLedState;
+      hardware.SetLed(ledState);
     }
+  }
 }
 
 int main(void)
 {
-    // Configure and Initialize the Daisy Seed
-    // These are separate to allow reconfiguration of any of the internal
-    // components before initialization.
-    hardware.Configure();
-    hardware.Init();
-    hardware.SetAudioBlockSize(4);
-    
-    // Initialize the oscillator.
-    osc.Init(hardware.AudioSampleRate());
-    osc.SetAmp(1.f);
-    osc.SetFreq(0.5f);  
+  // Configure and Initialize the Daisy Seed
+  // These are separate to allow reconfiguration of any of the internal
+  // components before initialization.
+  hardware.Configure();
+  hardware.Init();
+  hardware.SetAudioBlockSize(4);
 
-    hardware.StartAudio(AudioCallback);
+  // Initialize the oscillator.
+  osc.Init(hardware.AudioSampleRate());
+  osc.SetAmp(1.f);
+  osc.SetFreq(0.5f);
 
-    // Loop forever
-    while (1) {}
+  hardware.StartAudio(AudioCallback);
+
+  // Loop forever
+  while(1) {}
 }
