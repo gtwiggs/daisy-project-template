@@ -37,14 +37,14 @@ void AudioCallback(AudioHandle::InterleavingInputBuffer  in,
   AudioHandle::InterleavingOutputBuffer out,
   size_t size)
 {
-  bool newState;
+  bool newLedState;
 
   for (size_t i = 0; i < size; i++)
     {
-      newState = osc.Process() > 0.0f;
-      if (ledState != newState)
+      newLedState = osc.Process() > 0.0f;
+      if (ledState != newLedState)
       {
-        ledState = newState;
+        ledState = newLedState;
         hardware.SetLed(ledState);
       }
     }
@@ -52,10 +52,6 @@ void AudioCallback(AudioHandle::InterleavingInputBuffer  in,
 
 int main(void)
 {
-    // Declare a variable to store the state we want to set for the LED.
-    bool led_state;
-    led_state = true;
-
     // Configure and Initialize the Daisy Seed
     // These are separate to allow reconfiguration of any of the internal
     // components before initialization.

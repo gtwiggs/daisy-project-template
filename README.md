@@ -32,19 +32,16 @@ Many projects add submodules for these repositories. This makes sense if you wan
 
 ## [settings.json](./.vscode/settings.json)
 
-Review additional project properties for setup and building.
-
-- Declare the parent directory containing libDaisy and DaisySP projects.
+- Verify the `electrosmithFolder` setting points to the parent directory containing libDaisy and DaisySP projects.
 ```json
 "electrosmithFolder": "${workspaceFolder}/../electro-smith",
 ```
-- Define a property unique to Daisy Seed projects:
- ```json
-"workspaceKeybindings.daisyseed.enabled": true,
-```
-- That enables build & flash keyboard shortcuts added to `~/Library/Application Support/Code/User/keybindings.json`:
+
+## keybindings.json
+
+- Add Daisy Seed _build & flash_ keyboard shortcuts to `~/Library/Application Support/Code/User/keybindings.json`.
+
 ```json
-// Place your key bindings in this file to override the defaults
 [
   {
     "key": "alt+t",
