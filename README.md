@@ -1,8 +1,12 @@
 # Daisy Template
 
-My edition of "blink the LED" to use as a project template.
+An edition of "blink the LED" as a project template. Uses an oscillator to flash the LED during audio callback. Flashing the LED is trivial functionality, but works as "proof of life" when setting up a new project.
 
-Flashing the LED is trivial functionality, but works as "proof of life" when setting up a new project. I have the intent to elaborate on this basic project to include hardware configuration and an _AudioCallback_ loop.
+Consider for future revisions a framework to:
+
+- Define a board, i.e., the hardware controls attached to the daisy seed.
+- Declare callbacks to process hardware controls.
+- Declare parameters used by the project.
 
 ## Project Setup
 
@@ -28,7 +32,7 @@ Many projects add submodules for these repositories. This makes sense if you wan
 
 ## [settings.json](./.vscode/settings.json)
 
-I've added two custom properties to this file to make project setup easier.
+Review additional project properties for setup and building.
 
 - Declare the parent directory containing libDaisy and DaisySP projects.
 ```json
@@ -38,9 +42,8 @@ I've added two custom properties to this file to make project setup easier.
  ```json
 "workspaceKeybindings.daisyseed.enabled": true,
 ```
-- That enables build & flash keyboard shortcuts.
+- That enables build & flash keyboard shortcuts added to `~/Library/Application Support/Code/User/keybindings.json`:
 ```json
-// ~/Library/Application Support/Code/User/keybindings.json
 // Place your key bindings in this file to override the defaults
 [
   {
@@ -56,4 +59,6 @@ I've added two custom properties to this file to make project setup easier.
 ]
 ```
 
-## Replace `README.md`!!
+## ReadMe
+
+Edit this file to describe your project :)

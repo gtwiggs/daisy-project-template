@@ -22,10 +22,6 @@
 // VIN           47  |       |   02    D1
 // DGND          48  |       |   01    D0
 
-// #ifndef USE_DAISYSP_LGPL
-// #define USE_DAISYSP_LGPL
-// #endif
-
 #include "Template.h"
 
 using namespace daisy;
@@ -33,6 +29,26 @@ using namespace daisysp;
 
 // Declare a DaisySeed object called hardware
 DaisySeed hardware;
+static Oscillator osc;
+static bool ledState = false;
+
+// Audio callback function
+void AudioCallback(AudioHandle::InterleavingInputBuffer  in,
+  AudioHandle::InterleavingOutputBuffer out,
+  size_t size)
+{
+  bool newState;
+
+  for (size_t i = 0; i < size; i++)
+    {
+      newState = osc.Process() > 0.0f;
+      if (ledState != newState)
+      {
+        ledState = newState;
+        hardware.SetLed(ledState);
+      }
+    }
+}
 
 int main(void)
 {
@@ -45,17 +61,15 @@ int main(void)
     // components before initialization.
     hardware.Configure();
     hardware.Init();
+    hardware.SetAudioBlockSize(4);
+    
+    // Initialize the oscillator.
+    osc.Init(hardware.AudioSampleRate());
+    osc.SetAmp(1.f);
+    osc.SetFreq(0.5f);  
+
+    hardware.StartAudio(AudioCallback);
 
     // Loop forever
-    for(;;)
-    {
-        // Set the onboard LED
-        hardware.SetLed(led_state);
-
-        // Toggle the LED state for the next time around.
-        led_state = !led_state;
-
-        // Wait 500ms
-        System::Delay(500);
-    }
+    while (1) {}
 }
